@@ -59,11 +59,11 @@
 		}
 		
 		function openitem(file, path, id) {
-			console.log(file, id);
 			var ext = getFileExt(file);
 			var name = getFileName(file);
-			var data = dataMap[id];
+			var data = dataMap[id];			
 			var s = data.items ? '<div class="table-responsive" style="padding-bottom: 16px;"><a href="javascript:load(\''+id+'\',\''+path+'\');">返回</a> <h4>'+name+'</h4></div>\n' : '';
+			// console.log(file, id, data, s);
 			
 			$("#pageTitle")[0].innerHTML=typeof data === 'string' ? data : data.name;
 			
