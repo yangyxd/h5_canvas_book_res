@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //定义文字
+            var text = "绿叶学习网";
+            cxt.font = "bold 60px 微软雅黑";
+
+            //定义阴影
+            cxt.shadowOffsetX = 5;
+            cxt.shadowOffsetY = 5;
+            cxt.shadowColor = "#66CCFF";
+            cxt.shadowBlur = 10;
+
+            //填充文字
+            cxt.fillStyle = "#FF6699";
+            cxt.fillText(text, 10, 90);
+
+            $$("btn").onclick = function () {
+                window.location = cnv.toDataURL("image/png");
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="320" height="150" style="border:1px dashed gray"></canvas><br />
+    <input id="btn" type="button" value="保存图片" />
+</body>
+</html>

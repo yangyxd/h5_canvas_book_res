@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var image = new Image();
+            image.src = "images/princess.png";
+
+            image.onload = function () {
+                cxt.drawImage(image, 10, 10);
+                var imgData = cxt.getImageData(10, 10, 120, 120);
+                var data = imgData.data;
+                //遍历每个像素
+                for (var i = 0; i < data.length; i += 4) {
+                    var a = 50;
+                    data[i + 0] += a;
+                    data[i + 1] += a;
+                    data[i + 2] += a;
+                }
+                //在指定位置输出图片
+                cxt.putImageData(imgData, 140, 10);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="150" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

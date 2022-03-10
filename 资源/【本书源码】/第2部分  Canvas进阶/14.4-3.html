@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/arrow.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //实例化一个箭头，箭头中心坐标为画布中心坐标
+            var arrow = new Arrow(cnv.width / 2, cnv.height / 2);
+            var mouse = tools.getMouse(cnv);
+            var speed = 1.5;
+            var angle = 0;
+
+            (function drawFrame() {
+                window.requestAnimationFrame(drawFrame, cnv);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+                //计算出鼠标与箭头中心之间的夹角
+                var dx = mouse.x - cnv.width / 2;
+                var dy = mouse.y - cnv.height / 2;
+                angle = Math.atan2(dy, dx);
+
+                var vx = Math.cos(angle) * speed;
+                var vy = Math.sin(angle) * speed;
+                arrow.x += vx;
+                arrow.y += vy;
+
+                arrow.angle = angle;
+                arrow.fill(cxt);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

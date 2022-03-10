@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var ball = new Ball(cnv.width / 2, cnv.height / 2);
+            var targetRadius = 36;
+            var easing = 0.05;
+
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                var vRadius = (targetRadius - ball.radius) * easing;
+                ball.radius += vRadius;
+
+                ball.fill(cxt);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

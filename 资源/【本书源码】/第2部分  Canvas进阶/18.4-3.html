@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var ball = new Ball(cnv.width / 2, cnv.height / 2);
+            var mouse = tools.getMouse(cnv);
+
+            var targetX = cnv.width / 2;
+            var spring = 0.02;
+            var vx = 0;
+            var vy = 0;
+            var f = 0.95;
+
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                var ax = (mouse.x - ball.x) * spring;
+                var ay = (mouse.y - ball.y) * spring;
+
+                vx += ax;
+                vy += ay;
+
+                vx *= f;
+                vy *= f;
+
+                ball.x += vx;
+                ball.y += vy;
+
+                ball.fill(cxt);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //第1步，绘制基本图形，用来切割
+            cxt.moveTo(20, 70);
+            cxt.lineTo(120, 20);
+            cxt.lineTo(120, 70);
+            cxt.lineTo(20, 70);
+            cxt.stroke();
+
+            //第2步，使用clip()方法，使得切割区域为上面绘制的基本图形
+            cxt.clip();
+
+            //第3步，绘制一张图片
+            var image = new Image();
+            image.src = "images/princess.png";
+            image.onload = function () {
+                cxt.drawImage(image, 10, 20);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="160" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

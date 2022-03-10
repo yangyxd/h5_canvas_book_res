@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //初始化数据
+            var ball = new Ball(cnv.width / 2, cnv.height / 2, 20);
+            ball.fill(cxt);
+            var mouse = tools.getMouse(cnv);
+            //初始化2个变量：dx和dy
+            var dx = 0, dy = 0;
+
+            cnv.addEventListener("mousedown", function () {
+                if (ball.checkMouse(mouse)) {
+                    //dx为鼠标与球心的水平偏移量
+                    dx = mouse.x - ball.x;
+                    //dy为鼠标与球心的垂直偏移量
+                    dy = mouse.y - ball.y;
+                    document.addEventListener("mousemove", onMouseMove, false);
+                    document.addEventListener("mouseup", onMouseUp, false);
+                }
+            }, false);
+            function onMouseMove() {
+                //更新小球坐标
+                ball.x = mouse.x - dx;
+                ball.y = mouse.y - dy;
+            }
+            function onMouseUp() {
+                //鼠标松开时，移除鼠标松开事件：mouseup（自身事件）
+                document.removeEventListener("mouseup", onMouseUp, false);
+                //鼠标松开时，移除鼠标移动事件：mousemove
+                document.removeEventListener("mousemove", onMouseMove, false);
+            }
+
+            (function drawFrame() {
+                window.requestAnimationFrame(drawFrame, cnv);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                ball.fill(cxt);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

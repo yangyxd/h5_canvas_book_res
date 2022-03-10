@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //绘制初始图形
+            cxt.fillStyle = "HotPink";
+            cxt.fillRect(30, 30, 50, 50);
+
+            $$("btn").onclick = function () {
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+                cxt.transform(1, 0, 0, 1, 10, 10);
+                cxt.fillStyle = "HotPink";
+                cxt.fillRect(30, 30, 50, 50);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas><br />
+    <input id="btn" type="button" value="移动" />
+</body>
+</html>

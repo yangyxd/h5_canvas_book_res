@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //画圆
+            cxt.beginPath();
+            cxt.arc(80, 80, 50, 0, Math.PI * 2, true);
+            cxt.closePath();
+            //渐变
+            var gnt = cxt.createRadialGradient(100, 60, 10, 80, 80, 50);
+            gnt.addColorStop(0, "white");
+            gnt.addColorStop(0.9, "orange");
+            gnt.addColorStop(1, "rgba(0,0,0,0)");
+            //填充
+            cxt.fillStyle = gnt;
+            cxt.fill();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray"></canvas>
+</body>
+</html>

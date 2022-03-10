@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        //定义绘制图形的函数
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            cxt.fillStyle = "HotPink";
+            cxt.fillRect(30, 30, 50, 50);
+
+            $$("btn").onclick = function () {
+                var angle = -30 * Math.PI / 180    //逆时针旋转30°
+                cxt.rotate(angle);
+                cxt.fillStyle = "LightSkyBlue ";
+                cxt.fillRect(30, 30, 50, 50);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas><br />
+    <input id="btn" type="button" value="旋转" />
+</body>
+</html>

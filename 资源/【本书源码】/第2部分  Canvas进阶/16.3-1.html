@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+            var txt = document.getElementById("txt");
+
+            //定义一个位置固定的小球
+            var ballA = new Ball(cnv.width / 2, cnv.height / 2, 20, "#FF6699");
+            var mouse = tools.getMouse(cnv);
+
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                //定义一个位置不固定的小球，小球追随鼠标
+                var ballB = new Ball(mouse.x, mouse.y, 20, "#66CCFF");
+
+                //碰撞检测
+                if (tools.checkCircle(ballB, ballA)) {
+                    txt.innerHTML = "撞上了";
+                } else {
+                    txt.innerHTML = "没撞上";
+                }
+
+                ballA.fill(cxt);
+                ballB.fill(cxt);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+    <p id="txt"></p>
+</body>
+</html>

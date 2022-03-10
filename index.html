@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="yangyxd">
+    <title>HTML3 Canvas 学习资源</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+   </head>
+  <body>
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">HTML3 Canvas 学习资源</span>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div id="navbar" class="col-sm-3 col-md-2 sidebar collapse">
+          <ul class="nav nav-sidebar"><li><h4>加载中...</h4></li></ul>
+        </div>
+        
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 id="pageTitle" class="page-header">欢迎使用</h2>
+          <div id="pageBody" class="table-responsive">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  <script>
+		var dataMap = {};
+		var basePath = "/资源";
+			
+		function getFileExt(file) {
+			var i = file.lastIndexOf('.');
+			return i >= 0 ? file.substring(i) : '';
+		}
+		
+		function getFileName(file) {
+			var i = file.lastIndexOf('/');
+			return i >= 0 ? file.substring(i + 1) : file;
+		}
+		
+		function openitem(file, path, id) {
+			console.log(file, id);
+			var ext = getFileExt(file);
+			var name = getFileName(file);
+			var data = dataMap[id];
+			var s = data.items ? '<div class="table-responsive" style="padding-bottom: 16px;"><a href="javascript:load(\''+id+'\',\''+path+'\');">返回</a> <h4>'+name+'</h4></div>\n' : '';
+			
+			$("#pageTitle")[0].innerHTML=typeof data === 'string' ? data : data.name;
+			
+			switch (ext) {
+				case '.png':
+				case '.jpg':
+				case '.jpeg':
+				case '.gif':	
+					{
+						s += '<img src="'+basePath+file+'"></img>';
+						$("#pageBody")[0].innerHTML=s;
+					}
+					break;
+				case '.htm':
+				case '.html':
+				case '.txt':
+				case '.md':
+				case '.js':
+				case '.xml':
+					var httpData = '';
+					$.ajax({ 
+						type: "GET",
+						url: basePath+file, 
+						async: false,
+						success: function (v) { 
+							httpData = v;
+						}
+					});
+					s += '<TEXTAREA style="width: 100%; height: calc(100vh - 235px);">'+httpData+'</TEXTAREA>';
+					$("#pageBody")[0].innerHTML=s
+					break;
+				case '.ppt':
+				case '.pptx':
+				case '.xls':
+				case '.xlsx':
+				case '.doc':
+				case '.docx':
+					var full=basePath+file;
+					var url='http://view.officeapps.live.com/op/view.aspx?src=' + full;
+					console.log(url);
+					s += '<iframe src="'+url+'" style="width: 100%; height: calc(100vh - 235px);">该浏览器无法支持 Word 文档，请点击查看： <a href="'+full+'">下载</a></iframe>';
+					$("#pageBody")[0].innerHTML=s
+					break;
+			}
+		}
+		
+		function clearActive(id) {
+			$(".active").removeClass("active");
+			if (id) {
+				$("#"+id).addClass("active");
+			}			
+		}
+		
+		function load(id, path) {
+			var data = dataMap[id];
+			clearActive();
+			var obj = $("#"+id)
+			obj.addClass("active");
+			$("#pageTitle")[0].innerHTML=data.name;
+			var items = data.items;
+			var i = 0;
+			var v = '<table class="table table-striped"><thread><tr><th>#</th><th>名称</th><th></th></tr></thread><tbody>\n';
+			for (var item of items) {
+				var s = '';
+				if (typeof item === 'string') {
+					var ext = getFileExt(item);
+					if (ext === '.html' || ext === '.htm') {
+						var p = basePath + path + '/' + item;
+						s = '<a href="'+p+'" target="_blank">预览</a>';
+					}
+					v += '<tr><td><i>'+(i+1)+'</i></td><td><a href="javascript:openitem(\'/'+path+'/'+item+'\',\''+path+'\',\''+id+'\');">'+item+'</a></td><td>'+s+'</td></tr>';
+				}				
+				i++;
+			}
+			v += '</tbody></table>';
+			$("#pageBody")[0].innerHTML=v;
+    }
+    
+		function init(datas) {
+			var nav = "";
+			var i = 0;
+			// 导航只支持2级, 所有数据目录也要这样，只支持两级
+			for (var v of datas) {
+				if (typeof v === 'string') { continue; }
+				var name = Object.keys(v)[0];
+				var title = name.replace('【','').replace('】','');
+				nav += '<ul class="nav nav-sidebar"><li><h4>'+title+'</h4></li>\n';
+				var items = v[name];
+				var j = 0;
+				for (var item of items) {
+				  var id = 'menu'+i+''+j
+					if (typeof item === 'string') { 
+						dataMap[id] = { name: name + ' \\ ' + item };
+					  nav += '<li id="'+id+'"><a href="javascript:clearActive(\''+id+'\'); openitem(\'/'+name+'/'+item+'\',\''+name+'\',\''+id+'\');">'+item+'</a></li>\n'
+					} else {
+						var txt = Object.keys(item)[0];
+					  dataMap[id] = { name: name + ' \\ ' + txt, items: item[txt] };
+					  nav += '<li id="'+id+'"><a href="javascript:load(\''+id+'\',\'/'+name+'/'+txt+'\');">'+txt+'</a></li>\n'
+					}					
+					j++;
+				}
+				nav += '</ul>\n';
+				i++;
+			}
+			console.log('dataMap', dataMap);
+			$("#navbar")[0].innerHTML=nav;
+		}
+		    
+		$.ajax({ 
+			type: "GET", 
+			dataType: "json", 
+			url: "data.json", 
+			success: function (v) { 
+				init(v); 
+			}
+		});		
+  </script>  
+  <script src="bootstrap.min.js"></script>
+  
+</html>

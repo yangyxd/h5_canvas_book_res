@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var ball = new Ball();
+            var a = 0.2;
+            //计算出X轴和Y轴2个方向的加速度
+            var ax = a * Math.cos(30 * Math.PI / 180);
+            var ay = a * Math.sin(30 * Math.PI / 180);
+            var vx = 0;
+            var vy = 0;
+
+            (function drawFrame() {
+                window.requestAnimationFrame(drawFrame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                ball.x += vx;
+                ball.y += vy;
+                ball.fill(cxt);
+
+                vx += ax;
+                vy += ay;
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

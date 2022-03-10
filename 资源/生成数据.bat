@@ -1,0 +1,2 @@
+node ./MarkData.js
+pause

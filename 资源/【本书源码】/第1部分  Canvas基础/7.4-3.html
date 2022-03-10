@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var i = 0;
+            var rectWidth = 100;
+            var rectHeight = 50;
+            setInterval(function () {
+                i++;
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+                cxt.save();
+                cxt.translate(cnv.width / 2, cnv.height / 2);       //将坐标移动到中心
+                cxt.rotate(Math.PI * (i / 100));                 //累进旋转
+                cxt.fillStyle = "HotPink";
+                cxt.fillRect(-rectWidth / 2, -rectHeight / 2, rectWidth, rectHeight); //填充矩形
+                cxt.restore();
+            }, 10);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

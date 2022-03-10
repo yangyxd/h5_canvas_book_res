@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //定义数组，存储7种颜色
+            var colors = ["red", "orange", "yellow", "green", "blue", "navy", "purple"];
+            cxt.lineWidth = 12;
+            cxt.translate(50, 0);
+
+            //循环绘制圆弧
+            for (var i = 0; i < colors.length; i++) {
+                //定义每次向下移动10px的变换矩阵
+                cxt.translate(0, 10);
+                //定义颜色
+                cxt.strokeStyle = colors[i];
+                //绘制圆弧
+                cxt.beginPath();
+                cxt.arc(50, 100, 100, 0, 180 * Math.PI / 180, true);
+                cxt.stroke();
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

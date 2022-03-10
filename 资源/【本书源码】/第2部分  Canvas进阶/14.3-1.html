@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+            var text = document.getElementById("p1");
+
+            var x = cnv.width / 2;
+            var y = cnv.height / 2;
+
+            var mouse = tools.getMouse(cnv);
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                cxt.save();
+                cxt.beginPath();
+                cxt.moveTo(x, y);
+                //mouse.x表示鼠标的X轴坐标，mouse.y表示鼠标的Y轴坐标
+                cxt.lineTo(mouse.x, mouse.y);
+                cxt.closePath();
+                cxt.strokeStyle = "red";
+                cxt.stroke();
+                cxt.restore();
+
+                var dx = mouse.x - x;
+                var dy = mouse.y - y;
+                var distance = Math.sqrt(dx * dx + dy * dy);
+                text.innerText = "鼠标与中点距离为：" + distance;
+            })();
+
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+    <p id="p1"></p>
+</body>
+</html>

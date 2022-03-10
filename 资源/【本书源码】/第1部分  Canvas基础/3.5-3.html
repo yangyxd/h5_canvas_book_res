@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            createLeaf(cxt, 4, cnv.width / 2, cnv.height / 2, 20, 80);
+            //定义填充颜色为浅绿色
+            cxt.fillStyle = "#00FF99";
+            cxt.fill();
+        }
+        /*
+         * createLeaf()用于绘制N叶草
+         * n：n片
+         * dx、dy：花朵中心位置的坐标
+         * size：控制花朵的大小
+         * length：控制花瓣长度
+         */
+        function createLeaf(cxt, n, dx, dy, size, length) {
+            cxt.beginPath();
+            cxt.moveTo(dx, dy + size);
+            var degree = 2 * Math.PI / n;
+            for (var i = 1; i < n + 1; i++) {
+                //计算控制点坐标
+                var cx1 = Math.sin((i - 1) * degree) * length + dx;
+                var cy1 = Math.cos((i - 1) * degree) * length + dy;
+                var cx2 = Math.sin(i * degree) * length + dx;
+                var cy2 = Math.cos(i * degree) * length + dy;
+                //计算结束点的坐标
+                var x = Math.sin(i * degree) * size + dx;
+                var y = Math.cos(i * degree) * size + dy;
+                cxt.bezierCurveTo(cx1, cy1, cx2, cy2, x, y);
+            }
+            cxt.closePath();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas>
+</body>
+</html>
+<!--
+这里，我们在一条路径中连续定义首尾相连的多段贝塞尔曲线，其中每段三次贝塞尔曲线的起点和终点都落在圆心为（dx，dy）、半径为size的圆弧上，而每段圆弧的两个控制点落在圆心为（dx，dy）、半径为length的圆弧上，于是形成了N叶草的图形。其中，起点、终点和控制点坐标是使用正弦和余弦函数计算出来的。
+    总的来说，使用二次或三次贝塞尔曲线来绘制一个图形是相当有挑战的，因为这不像在矢量绘图软件Adobe Illustrator（简称AI）里那样有即时的视觉反馈（所见即所得）。所以用它来画复杂图形比较麻烦。但是从理论上来说，任何复杂的图形都可以用贝塞尔曲线绘制出来！这也是贝塞尔曲线强大之处。
+-->

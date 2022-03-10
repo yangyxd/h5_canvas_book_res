@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var ball = new Ball(cnv.width / 2, cnv.height / 2);
+            var mouse = tools.getMouse(cnv);
+
+            var targetX = cnv.width / 2;
+            var spring = 0.02;
+            var vx = 0;
+            var vy = 0;
+            var friction = 0.95;
+
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                //加入弹性动画
+                var ax = (mouse.x - ball.x) * spring;
+                var ay = (mouse.y - ball.y) * spring;
+                vx += ax;
+                vy += ay;
+                vx *= friction;
+                vy *= friction;
+                ball.x += vx;
+                ball.y += vy;
+                ball.fill(cxt);
+
+                //将鼠标以及小球中心连接成一条直线
+                cxt.beginPath();
+                cxt.moveTo(ball.x, ball.y);
+                cxt.lineTo(mouse.x, mouse.y);
+                cxt.stroke();
+                cxt.closePath();
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="270" height="180" style="border:1px solid silver;"></canvas>
+</body>
+</html>

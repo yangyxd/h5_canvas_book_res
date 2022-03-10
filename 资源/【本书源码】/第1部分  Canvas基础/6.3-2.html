@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //创建canvas元素
+            var bgCanvas = document.createElement("canvas");
+            bgCanvas.width = 20;
+            bgCanvas.height = 20;
+
+            //在新创建的canvas中画一个圆
+            var bgCxt = bgCanvas.getContext("2d");
+            bgCxt.beginPath();
+            bgCxt.arc(10, 10, 10, 0, 360 * Math.PI / 180, true);
+            bgCxt.closePath();
+            bgCxt.fillStyle = "HotPink";
+            bgCxt.fill();
+
+            //平铺canvas
+            var pattern = cxt.createPattern(bgCanvas, "repeat-x");
+            cxt.fillStyle = pattern;
+            cxt.fillRect(0, 0, 200, 200);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="160" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

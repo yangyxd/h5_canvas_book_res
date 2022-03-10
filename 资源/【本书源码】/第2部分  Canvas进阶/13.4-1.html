@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //初始化变量，也就是初始化圆的X轴坐标为0
+            var x = 0;
+            //动画循环
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                //每次动画循环都先清空画布，再重绘新的图形
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                //绘制圆
+                cxt.beginPath();
+                cxt.arc(x, 70, 20, 0, 360 * Math.PI / 180, true);
+                cxt.closePath();
+                cxt.fillStyle = "#6699FF";
+                cxt.fill();
+
+                //变量递增
+                x += 2;
+            })();
+        }
+        wind
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

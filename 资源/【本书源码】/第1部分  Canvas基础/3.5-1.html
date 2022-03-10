@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //绘制三次贝塞尔曲线
+            cxt.moveTo(20, 80);
+            var cx1 = 20;
+            var cy1 = 20;
+            var cx2 = 120;
+            var cy2 = 120;
+            var endX = 120;
+            var endY = 60;
+            cxt.bezierCurveTo(cx1, cy1, cx2, cy2, endX, endY);
+            cxt.stroke();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

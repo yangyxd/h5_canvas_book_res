@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        canvas {
+            width: 200px;
+            height: 150px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var cnv = document.getElementById("canvas");
+            var str = "canvas的宽度为：" + cnv.width + "，高度为：" + cnv.height;
+            alert(str);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

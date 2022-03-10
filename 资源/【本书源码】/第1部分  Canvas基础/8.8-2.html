@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            var image = new Image();
+            image.src = "images/princess.png";
+
+            image.onload = function () {
+                cxt.drawImage(image, 0, 0, 60, 60);
+                //获取一个图片的imgData
+                var imgData1 = cxt.getImageData(0, 0, 60, 60);
+                //利用这个图片的imgData作为参数
+                var imgData2 = cxt.createImageData(imgData1);
+                var data = imgData2.data;
+                for (var i = 0; i < imgData2.width * imgData2.height * 4; i += 4) {
+                    data[i + 0] = 0;
+                    data[i + 1] = 0;
+                    data[i + 2] = 255;
+                    data[i + 3] = 255;
+                }
+                cxt.putImageData(imgData2, 80, 0);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

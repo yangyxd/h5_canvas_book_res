@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //在横坐标150处绘制一条竖线
+            cxt.strokeStyle = "purple";
+            cxt.moveTo(150, 0);
+            cxt.lineTo(150, 200);
+            cxt.stroke();
+
+            cxt.font = "15px Arial";
+
+            cxt.textAlign = "start";
+            cxt.fillText("textAlign取值为start", 150, 30);
+            cxt.textAlign = "left";
+            cxt.fillText("textAlign取值为left", 150, 60);
+            cxt.textAlign = "end";
+            cxt.fillText("textAlign取值为end", 150, 90);
+            cxt.textAlign = "right";
+            cxt.fillText("textAlign取值为right", 150, 120);
+            cxt.textAlign = "center";
+            cxt.fillText("textAlign取值为center", 150, 150);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="200" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

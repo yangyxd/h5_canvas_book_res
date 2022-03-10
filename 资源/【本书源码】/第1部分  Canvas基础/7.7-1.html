@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            cxt.translate(150, 0);
+            cxt.fillStyle = "rgba(255,0,0,0.25)";
+            for (var i = 0; i < 50; i++) {
+                cxt.translate(25, 25);      //图形平移
+                cxt.scale(0.95, 0.95);      //图形缩放
+                cxt.rotate(Math.PI / 10);   //图形旋转
+                cxt.fillRect(0, 0, 100, 50);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="180" style="border:1px dashed gray;"></canvas>
+</body>
+</html>

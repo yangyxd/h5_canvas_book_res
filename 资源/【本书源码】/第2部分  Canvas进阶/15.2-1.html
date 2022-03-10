@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //初始化数据
+            var ball = new Ball(cnv.width / 2, cnv.height / 2);
+            ball.fill(cxt);
+            var key = tools.getKey();
+
+            //添加键盘事件
+            window.addEventListener("keydown", function (e) {
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                //根据key.direction的值，判断物体移动方向
+                switch (key.direction) {
+                    case "up":
+                        ball.y -= 3;
+                        checkBorder();
+                        ball.fill(cxt);
+                        break;
+                    case "down":
+                        ball.y += 3;
+                        checkBorder();
+                        ball.fill(cxt);
+                        break;
+                    case "left":
+                        ball.x -= 3;
+                        checkBorder();
+                        ball.fill(cxt);
+                        break;
+                    case "right":
+                        ball.x += 3;
+                        checkBorder();
+                        ball.fill(cxt);
+                        break;
+                    default:
+                        checkBorder();
+                        ball.fill(cxt);
+                }
+            }, false);
+
+            //定义边界检测函数
+            function checkBorder() {
+                //当小球碰到上边界时
+                if (ball.y < ball.radius) {
+                    ball.y = ball.radius;
+                    //当小球碰到下边界时
+                } else if (ball.y > cnv.height - ball.radius) {
+                    ball.y = cnv.height - ball.radius;
+                }
+                //当小球碰到左边界时
+                if (ball.x < ball.radius) {
+                    ball.x = ball.radius;
+                    //当小球碰到右边界时
+                } else if (ball.x > cnv.width - ball.radius) {
+                    ball.x = cnv.width - ball.radius;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

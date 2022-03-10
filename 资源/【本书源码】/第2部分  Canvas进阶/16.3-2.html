@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //定义两个小球：ballA和ballB
+            var ballA = new Ball(0, cnv.height / 2, 12, "#FF6699");
+            var ballB = new Ball(cnv.width, cnv.height / 2, 12, "#66CCFF");
+            //定义小球X轴速度
+            var vx = 2;
+
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                ballA.x += vx;
+                ballB.x += -vx;
+
+                //如果发生碰撞，则速度取反
+                if (tools.checkCircle(ballB, ballA)) {
+                    vx = -vx;
+                }
+
+                ballA.fill(cxt);
+                ballB.fill(cxt);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="270" height="200" style="border:1px solid silver;"></canvas>
+</body>
+</html>

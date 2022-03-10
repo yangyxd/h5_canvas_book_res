@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //定义一个用来存放小球的数组balls
+            var balls = [];
+            //n表示小球数量
+            var n = 10;
+
+            //生成n个小球，其中小球的color、vx、vy都是随机的
+            for (var i = 0; i < n; i++) {
+                var ball = new Ball(cnv.width / 2, cnv.height / 2, 8, tools.getRandomColor());
+                //随机产生-3~3之间的任意数，作为vx、vy的值
+                ball.vx = (Math.random() * 2 - 1) * 3;
+                ball.vy = (Math.random() * 2 - 1) * 3;
+                //添加到数组balls中
+                balls.push(ball);
+            }
+
+            (function frame() {
+                window.requestAnimationFrame(frame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                //使用forEach()函数遍历数组balls
+                balls.forEach(function (ball) {
+                    ball.x += ball.vx;
+                    ball.y += ball.vy;
+
+                    //边界检测
+                    //碰到左边界
+                    if (ball.x < ball.radius) {
+                        ball.x = ball.radius;
+                        ball.vx = -ball.vx;
+                        //碰到右边界
+                    } else if (ball.x > canvas.width - ball.radius) {
+                        ball.x = canvas.width - ball.radius;
+                        ball.vx = -ball.vx;
+                    }
+                    //碰到上边界
+                    if (ball.y < ball.radius) {
+                        ball.y = ball.radius;
+                        ball.vy = -ball.vy;
+                        //碰到下边界
+                    } else if (ball.y > canvas.height - ball.radius) {
+                        ball.y = canvas.height - ball.radius;
+                        ball.vy = -ball.vy;
+                    }
+
+                    ball.fill(cxt);
+                })
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>

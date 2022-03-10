@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/tools.js"></script>
+    <script src="js/ball.js"></script>
+    <script type="text/javascript">
+        function $$(id) {
+            return document.getElementById(id);
+        }
+        window.onload = function () {
+            var cnv = $$("canvas");
+            var cxt = cnv.getContext("2d");
+
+            //初始化数据
+            var ball = new Ball(cnv.width / 2, 0);
+            //Y轴初始速度为0，重力加速度为0.2，反弹系数为-0.8
+            var vy = 0;
+            var gravity = 0.2;
+            var bounce = -0.8;
+
+            (function drawFrame() {
+                window.requestAnimationFrame(drawFrame);
+                cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+                ball.y += vy;
+                //边界检测
+                if (ball.y > cnv.height - ball.radius) {
+                    ball.y = cnv.height - ball.radius;
+                    //速度反向并且减小
+                    vy = vy * bounce;
+                }
+                ball.fill(cxt);
+
+                vy += gravity;
+            })();
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="150" style="border:1px solid silver;"></canvas>
+</body>
+</html>
