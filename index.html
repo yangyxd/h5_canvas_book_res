@@ -102,7 +102,7 @@
 				case '.doc':
 				case '.docx':
 					var full=basePath+file;
-					var url='http://view.officeapps.live.com/op/view.aspx?src=' + full;
+					var url='https://view.officeapps.live.com/op/view.aspx?src=' + full;
 					console.log(url);
 					s += '<iframe src="'+url+'" style="width: 100%; height: calc(100vh - 235px);">该浏览器无法支持 Word 文档，请点击查看： <a href="'+full+'">下载</a></iframe>';
 					$("#pageBody")[0].innerHTML=s
