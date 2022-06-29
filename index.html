@@ -102,7 +102,7 @@
 				case '.doc':
 				case '.docx':
 					var host = window.location.href;
-					host = host.substring(0, host.lastIndexOf('/') - 1);
+					host = host.substring(0, host.lastIndexOf('/'));
 					var full= host+basePath+file;
 					var url='https://view.officeapps.live.com/op/view.aspx?src=' + full;
 					console.log(url);
