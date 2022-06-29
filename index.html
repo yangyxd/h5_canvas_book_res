@@ -46,7 +46,7 @@
     
   <script>
 		var dataMap = {};
-		var basePath = "./资源";
+		var basePath = "/资源";
 			
 		function getFileExt(file) {
 			var i = file.lastIndexOf('.');
@@ -73,7 +73,7 @@
 				case '.jpeg':
 				case '.gif':	
 					{
-						s += '<img src="'+basePath+file+'"></img>';
+						s += '<img src=".'+basePath+file+'"></img>';
 						$("#pageBody")[0].innerHTML=s;
 					}
 					break;
@@ -86,7 +86,7 @@
 					var httpData = '';
 					$.ajax({ 
 						type: "GET",
-						url: basePath+file, 
+						url: '.'+basePath+file, 
 						async: false,
 						success: function (v) { 
 							httpData = v;
@@ -101,7 +101,9 @@
 				case '.xlsx':
 				case '.doc':
 				case '.docx':
-					var full=basePath+file;
+					var host = window.location.href;
+					host = host.substring(0, host.lastIndexOf('/') - 1);
+					var full= host+basePath+file;
 					var url='https://view.officeapps.live.com/op/view.aspx?src=' + full;
 					console.log(url);
 					s += '<iframe src="'+url+'" style="width: 100%; height: calc(100vh - 235px);">该浏览器无法支持 Word 文档，请点击查看： <a href="'+full+'">下载</a></iframe>';
@@ -132,7 +134,7 @@
 					var ext = getFileExt(item);
 					if (ext === '.html' || ext === '.htm') {
 						var p = basePath + path + '/' + item;
-						s = '<a href="'+p+'" target="_blank">预览</a>';
+						s = '<a href=".'+p+'" target="_blank">预览</a>';
 					}
 					v += '<tr><td><i>'+(i+1)+'</i></td><td><a href="javascript:openitem(\'/'+path+'/'+item+'\',\''+path+'\',\''+id+'\');">'+item+'</a></td><td>'+s+'</td></tr>';
 				}				
